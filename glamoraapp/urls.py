@@ -60,11 +60,12 @@ urlpatterns = [
 
     path('user/profile/', views.user_profile, name='user_profile'),
     
-    path('admin_payments/',views.admin_payments,name='admin_payments')
+    path('admin_payments/',views.admin_payments,name='admin_payments'),
    
+   path('gemini-chat/', views.gemini_chat, name='gemini_chat'),
+
 
 ]
-
 
 
 
