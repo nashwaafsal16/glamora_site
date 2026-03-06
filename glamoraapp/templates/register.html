@@ -1,0 +1,108 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<br><br><br>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow p-4">
+                <h2 class="text-center mb-4">User Registration</h2>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <p style="color: green; text-align:center;">
+                            {{ message }}
+                        </p>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label>name</label>
+                        <input type="text"
+                               name="name"
+                               class="form-control"
+                               placeholder="Enter name"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email"
+                               name="email"
+                               class="form-control"
+                               placeholder="Enter Email"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+    <label>Password</label>
+    <input type="password"
+           name="password"
+           class="form-control"
+           placeholder="Enter Password"
+           required>
+    <small class="text-muted">Minimum 8 characters</small>
+</div>
+
+<div class="mb-3">
+    <label>Confirm Password</label>
+    <input type="password"
+           name="confirm_password"
+           class="form-control"
+           placeholder="Re-enter Password"
+           required>
+</div>
+                    <div class="mb-3">
+                        <label>Phone</label>
+                        <input type="text"
+                               name="phone"
+                               class="form-control"
+                               placeholder="Enter Phone Number"
+                               required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Address</label>
+                        <textarea name="address"
+                                  class="form-control"
+                                  placeholder="Enter Address"
+                                  required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>City</label>
+                        <input type="text"
+                               name="city"
+                               class="form-control"
+                               placeholder="Enter City"
+                               required>
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+                        Register
+                    </button>
+
+                </form>
+
+                <div class="text-center mt-3">
+                    <a href="{% url 'login' %}">
+                        Already have an account? Login
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'admin/admin_index.html' %}
+
+{% block content %}
+
+<h2>Update Beauty Service</h2>
+
+<form method="POST" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<!-- Name -->
+
+<label>Name:</label>
+
+<input type="text"
+       name="name"
+       value="{{ service.name }}"
+       class="form-control">
+
+<br>
+
+
+<!-- Description -->
+
+<label>Description:</label>
+
+<textarea name="description"
+          class="form-control">{{ service.description }}</textarea>
+
+<br>
+
+
+<!-- Price -->
+
+<label>Price:</label>
+
+<input type="number"
+       name="price"
+       value="{{ service.price }}"
+       class="form-control">
+
+<br>
+
+
+<!-- Duration -->
+
+<label>Duration:</label>
+
+<input type="number"
+       name="duration"
+       value="{{ service.duration }}"
+       class="form-control">
+
+<br>
+
+
+<!-- SHOW OLD IMAGE -->
+
+<label>Current Image:</label>
+
+<br>
+
+{% if service.image %}
+
+<img src="{{ service.image.url }}"
+     width="120"
+     height="120">
+
+<br><br>
+
+{% else %}
+
+No Image
+
+<br><br>
+
+{% endif %}
+
+
+<!-- Upload New Image -->
+
+<label>Change Image:</label>
+
+<input type="file"
+       name="image"
+       class="form-control">
+
+<br>
+
+
+<button type="submit"
+        class="btn btn-success">
+
+Update
+
+</button>
+
+
+<a href="{% url 'view_beauty_services' %}"
+   class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+
+</form>
+<br>
+{% endblock %}

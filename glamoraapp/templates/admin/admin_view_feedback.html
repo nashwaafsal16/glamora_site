@@ -1,0 +1,67 @@
+{% extends 'admin/admin_index.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Customer Feedback</h3>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- Feedback List -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Customer</th>
+                    <th>Message</th>
+                    <th>Rating</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for feedback in feedbacks %}
+                <tr>
+                    <td>
+                        {{ feedback.user.name }}<br>
+                        <small>{{ feedback.user.email }}</small>
+                    </td>
+                    <td>{{ feedback.message|truncatechars:50 }}</td>
+                    <td>
+                        {% if feedback.rating %}
+                            {% for i in "12345"|make_list %}
+                                {% if forloop.counter <= feedback.rating %}★{% else %}☆{% endif %}
+                            {% endfor %}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ feedback.created_at|date:"d M Y" }}</td>
+                    <td>
+                        {% if feedback.reply %}
+                            <span class="badge badge-success">Replied</span>
+                        {% else %}
+                            <span class="badge badge-warning">Pending Review</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'admin_reply_feedback' feedback.id %}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-reply"></i> Review
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No feedback available</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+{% endblock %}

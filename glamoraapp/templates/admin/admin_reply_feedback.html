@@ -1,0 +1,37 @@
+{% extends 'admin/admin_index.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Review Feedback</h3>
+    
+    <!-- Customer Feedback -->
+    <div class="card mb-3">
+        <div class="card-header bg-info text-white">
+            <strong>{{ feedback.user.name }}</strong> - {{ feedback.user.email }}
+        </div>
+        <div class="card-body">
+            <p><strong>Rating:</strong> 
+    <span style="color: #ffc107; font-size: 1.2em;">
+        {% for i in "12345"|make_list %}
+            {% if forloop.counter <= feedback.rating %}★{% else %}☆{% endif %}
+        {% endfor %}
+    </span>
+    {% if feedback.rating %}({{ feedback.rating }}/5){% endif %}
+</p>
+            <p><small>Received: {{ feedback.created_at|date:"d M Y, h:i A" }}</small></p>
+        </div>
+    </div>
+    
+    <!-- Reply Form -->
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label><strong>Your Reply:</strong></label>
+            <textarea name="reply" class="form-control" rows="4" required>{% if feedback.reply %}{{ feedback.reply }}{% endif %}</textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Send Reply</button>
+        <a href="{% url 'admin_view_feedback' %}" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+<br>
+{% endblock %}

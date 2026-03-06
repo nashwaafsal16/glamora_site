@@ -1,0 +1,74 @@
+{% extends 'user/user_index.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Booking History</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Payment Amount</th>
+                <th>Payment Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.service.name }}</td>
+                <td>{{ booking.booking_date }}</td>
+                <td>{{ booking.booking_time }}</td>
+
+                <!-- Booking Status -->
+                <td>
+                    {% if booking.status == "pending" %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    {% elif booking.status == "confirmed" %}
+                        <span class="badge bg-success">Confirmed</span>
+                    {% elif booking.status == "cancelled" %}
+                        <span class="badge bg-danger">Cancelled</span>
+                    {% endif %}
+                </td>
+
+                <!-- Payment Amount -->
+                <td>
+                    {% if booking.payment %}
+                        ₹ {{ booking.payment.paid_amount }}
+                    {% else %}
+                        Not Paid
+                    {% endif %}
+                </td>
+
+                <!-- Payment Status -->
+                <td>
+                    {% if booking.payment %}
+                        <span class="badge bg-success">Paid</span>
+                    {% else %}
+                        <span class="badge bg-danger">Unpaid</span>
+                    {% endif %}
+                </td>
+
+                <!-- Cancel Button -->
+                <td>
+                    {% if booking.status == "pending" %}
+                        <a href="{% url 'user_cancel_booking' booking.id %}" class="btn btn-danger btn-sm">
+                            Cancel
+                        </a>
+                    {% else %}
+                        <span class="text-muted">Cannot Cancel</span>
+                    {% endif %}
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+<br>
+{% endblock %}

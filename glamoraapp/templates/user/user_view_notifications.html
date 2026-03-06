@@ -1,0 +1,51 @@
+{% extends 'user/user_index.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Notifications</h3>
+   
+  
+    
+   
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <!-- Filter -->
+    
+<div class="mb-3">
+    <a href="?filter=all" class="btn btn-sm btn-outline-primary {% if filter == 'all' or not filter %}active{% endif %}">All ({{ total_count }})</a>
+    <a href="?filter=unread" class="btn btn-sm btn-outline-primary {% if filter == 'unread' %}active{% endif %}">Unread ({{ unread_count }})</a>
+    <a href="?filter=read" class="btn btn-sm btn-outline-primary {% if filter == 'read' %}active{% endif %}">Read ({{ read_count }})</a>
+    
+    {% if unread_count > 0 %}
+        <a href="{% url 'mark_all_notifications_read' %}" class="btn btn-sm btn-success float-right">Mark All Read</a>
+    {% endif %}
+</div>
+    
+    <!-- Notifications List -->
+    <ul class="list-group">
+        {% for notification in notifications %}
+        <li class="list-group-item d-flex justify-content-between align-items-center
+            {% if not notification.is_read %}list-group-item-warning{% endif %}">
+            
+            <div>
+                <strong>{{ notification.title }}</strong><br>
+                {{ notification.message }}<br>
+                <small class="text-muted">{{ notification.created_at|timesince }} ago</small>
+            </div>
+            
+            {% if not notification.is_read %}
+            <a href="{% url 'mark_notification_read' notification.id %}" class="btn btn-sm btn-success">✓</a>
+            {% endif %}
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted">No notifications received</li>
+        {% endfor %}
+    </ul>
+</div>
+<br>
+{% endblock %}

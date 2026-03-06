@@ -1,0 +1,80 @@
+{% extends 'admin/admin_index.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">View All Bookings</h2>
+
+    <!-- Filter Options -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="btn-group">
+                <a href="?filter=all" class="btn btn-outline-primary {% if filter == 'all' or not filter %}active{% endif %}">All Bookings</a>
+                <a href="?filter=pending" class="btn btn-outline-warning {% if filter == 'pending' %}active{% endif %}">Pending</a>
+                <a href="?filter=confirmed" class="btn btn-outline-success {% if filter == 'confirmed' %}active{% endif %}">Confirmed</a>
+                <a href="?filter=cancelled" class="btn btn-outline-danger {% if filter == 'cancelled' %}active{% endif %}">Cancelled</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>User</th>
+                            <th>Service</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in bookings %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ booking.user.name }}</td>
+                            <td>{{ booking.service.name }}</td>
+                            <td>{{ booking.booking_date|date:"d M Y" }}</td>
+                            <td>{{ booking.booking_time|time:"h:i A" }}</td>
+                            <td>
+                                {% if booking.status == "pending" %}
+                                    <span class="badge bg-warning text-dark px-3 py-2">Pending</span>
+                                {% elif booking.status == "confirmed" %}
+                                    <span class="badge bg-success px-3 py-2">Confirmed</span>
+                                {% elif booking.status == "cancelled" %}
+                                    <span class="badge bg-danger px-3 py-2">Cancelled</span>
+                                {% else %}
+                                    <span class="badge bg-secondary px-3 py-2">{{ booking.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'confirm_booking' booking.id %}" class="btn btn-success btn-sm" onclick="return confirm('Confirm this booking?')">
+                                    Confirm
+                                </a>
+                                <a href="{% url 'admin_cancel_booking' booking.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Cancel this booking?')">
+                                     Cancel
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <i class="fas fa-calendar-times fa-2x text-muted mb-2"></i>
+                                <p class="text-muted">No Bookings Available</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+{% endblock %}

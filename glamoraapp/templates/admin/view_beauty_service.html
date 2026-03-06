@@ -1,0 +1,59 @@
+{% extends 'admin/admin_index.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">View Beauty Services</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Duration</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+            <tr>
+                <td>{{ service.id }}</td>
+                <td>{{ service.name }}</td>
+                <td>{{ service.description }}</td>
+                <td>₹ {{ service.price }}</td>
+                <td>{{ service.duration }} Minutes</td>
+                <td>
+                    {% if service.image %}
+                        <img src="{{ service.image.url }}" width="80" height="80" style="object-fit:cover;">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+                <td>
+                    <!-- ✅ EDIT BUTTON -->
+                    <a href="{% url 'update_beauty_service' service.id %}" class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <!-- ✅ DELETE BUTTON -->
+                    <a href="{% url 'delete_service' service.id %}" class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No Services Available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'add_beauty_service' %}" class="btn btn-primary">Add Service</a>
+    <a href="{% url 'admin_index' %}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+<br>
+{% endblock %}

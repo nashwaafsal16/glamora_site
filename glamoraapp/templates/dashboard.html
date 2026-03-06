@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<br><br>
+
+<div class="container">
+    <h2 style="text-align:center;">Welcome Admin</h2>
+
+    <br>
+
+    <div style="text-align:center;">
+        <p>Welcome {{ user.name }}</p>
+
+        <a href="{% url 'logout' %}">
+            <button>Logout</button>
+        </a>
+    </div>
+</div>
+
+<br><br>
+
+{% endblock %}

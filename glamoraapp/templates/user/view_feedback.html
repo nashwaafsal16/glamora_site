@@ -1,0 +1,61 @@
+{% extends 'user/user_index.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3> My Feedback</h3>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="text-right mb-3">
+        <a href="{% url 'send_feedback' %}" class="btn btn-sm btn-primary">
+            <i class="fas fa-plus"></i> New Feedback
+        </a>
+    </div>
+    
+    {% if feedbacks %}
+        <div class="list-group">
+            {% for feedback in feedbacks %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            {% if feedback.rating %}
+                                <span class="badge badge-warning">
+                                    {% for i in "12345"|make_list %}
+                                        {% if forloop.counter <= feedback.rating %}★{% endif %}
+                                    {% endfor %}
+                                </span>
+                            {% endif %}
+                            <p class="mb-1 mt-2">{{ feedback.message }}</p>
+                            <small class="text-muted">{{ feedback.created_at|date:"d M Y, h:i A" }}</small>
+                        </div>
+                        <div>
+                            {% if feedback.reply %}
+                                <span class="badge badge-success">Replied</span>
+                            {% else %}
+                                <span class="badge badge-secondary">Pending</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if feedback.reply %}
+                        <div class="mt-2 p-2 bg-light">
+                            <strong>Admin Reply:</strong><br>
+                            {{ feedback.reply }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-5">
+            <p class="text-muted">No feedback sent yet.</p>
+            <a href="{% url 'send_feedback' %}" class="btn btn-primary">Send Your First Feedback</a>
+        </div>
+    {% endif %}
+</div>
+<br>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'user/user_index.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Send Feedback</h3>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- Rating -->
+                <div class="form-group">
+                    <label>Rating:</label>
+                    <select name="rating" class="form-control">
+                        <option value="">-- Select Rating --</option>
+                        <option value="5">5 ★ Excellent</option>
+                        <option value="4">4 ★ Good</option>
+                        <option value="3">3 ★ Average</option>
+                        <option value="2">2 ★ Below Average</option>
+                        <option value="1">1 ★ Poor</option>
+                    </select>
+                </div>
+                
+                <!-- Message -->
+                <div class="form-group">
+                    <label>Your Feedback:</label>
+                    <textarea name="message" class="form-control" rows="4" placeholder="Write your feedback here..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Send 
+                </button>
+              
+                <a href="{% url 'user_index' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+{% endblock %}

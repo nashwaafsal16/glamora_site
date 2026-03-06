@@ -1,0 +1,19 @@
+{% extends 'user/user_index.html' %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h4>Payment Successful</h4>
+        </div>
+        <div class="card-body">
+            <h3>Thank You!</h3>
+            <p>Paid: ₹{{ payment.paid_amount }}</p>
+            <p>Booking confirmed</p>
+            <hr>
+            <a href="{% url 'booking_history' %}" class="btn btn-primary">My Bookings</a>
+            <a href="{% url 'user_index' %}" class="btn btn-secondary">Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

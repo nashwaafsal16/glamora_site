@@ -1,0 +1,44 @@
+{% extends 'admin/admin_index.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3> Send Notification</h3>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Select User -->
+        <div class="form-group">
+            <label>User:</label>
+            <select name="user" class="form-control" required>
+                <option value="">-- Select User --</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <!-- Notification Type - Services, Offers, Bookings -->
+        <div class="form-group">
+            <label>Notification Type:</label>
+            <select name="notification_type" class="form-control" required>
+                <option value="">-- Select Type --</option>
+                <option value="service">📋 Service</option>
+                <option value="offer">🎉 Offer</option>
+                <option value="booking">📅 Booking</option>
+            </select>
+            <small class="text-muted">Send notifications regarding services, offers, or bookings</small>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Send</button>
+        <a href="{% url 'admin_index' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<br>
+{% endblock %}

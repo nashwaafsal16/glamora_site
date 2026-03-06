@@ -1,0 +1,44 @@
+{% extends 'user/user_index.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3>Make Payment (50% Advance)</h3>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="card">
+        <div class="card-body">
+            <h5>Booking: {{ booking.service.name }}</h5>
+            <p>Date: {{ booking.booking_date }} {{ booking.booking_time }}</p>
+            <p>Total: ₹{{ booking.service.price }}</p>
+            <p class="text-danger">Advance (50%): ₹{{ advance_amount }}</p>
+            <hr>
+            
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label>Payment Method:</label>
+                    <select name="payment_method" class="form-control" required>
+                        <option value="">Select</option>
+                        <option value="CARD">Card</option>
+                        <option value="UPI">UPI</option>
+                        <option value="COD">Cash on Delivery</option>
+                    </select>
+                </div>
+                
+                <div class="alert alert-info mt-3">
+                    Dummy payment - ₹{{ advance_amount }}
+                </div>
+                
+                <button type="submit" class="btn btn-success">Pay ₹{{ advance_amount }} & Confirm</button>
+                <a href="{% url 'booking_history' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

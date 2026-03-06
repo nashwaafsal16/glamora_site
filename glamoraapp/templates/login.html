@@ -1,0 +1,50 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<br><br><br>
+
+<div class="container mt-5">
+    <h2 style="text-align:center;">Login</h2>
+    <br>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color:red; text-align:center;">
+                {{ message }}
+            </p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" style="width:400px; margin:auto;">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+
+        <br>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+
+        <br>
+
+        <button type="submit" class="btn btn-primary w-100">
+            Login
+        </button>
+    </form>
+
+    <br>
+
+    <p style="text-align:center;">
+        Don't have an account?
+        <a href="{% url 'register' %}">Register Here</a>
+    </p>
+
+</div>
+
+<br><br><br>
+{% endblock %}

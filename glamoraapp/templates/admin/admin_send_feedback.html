@@ -1,0 +1,23 @@
+{% extends 'admin/admin_index.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Reply to Feedback</h2>
+    <p><strong>From:</strong> {{ feedback.user.name }} ({{ feedback.user.email }})</p>
+    <p><strong>Message:</strong> {{ feedback.message }}</p>
+    <p><strong>Received:</strong> {{ feedback.created_at }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="reply">Your Reply:</label>
+            <textarea name="reply" id="reply" class="form-control" rows="4" required>{% if feedback.reply %}{{ feedback.reply }}{% endif %}</textarea>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Send Reply</button>
+        <a href="{% url 'admin_view_feedback' %}" class="btn btn-secondary">Cancel</a>
+        
+    </form>
+</div>
+<br>
+{% endblock %}
