@@ -673,3 +673,31 @@ def user_profile(request):
 
 
 
+
+
+import os
+import google.generativeai as genai
+from dotenv import load_dotenv
+from django.shortcuts import render
+
+# Load .env file
+load_dotenv()
+
+# Get API key from env
+api_key = os.getenv("GEMINI_API_KEY")
+
+genai.configure(api_key=api_key)
+
+model = genai.GenerativeModel("gemini-2.5-flash")
+
+
+def gemini_chat(request):
+    response_text = ""
+
+    if request.method == "POST":
+        message = request.POST.get("message")
+
+        response = model.generate_content(message)
+        response_text = response.text
+
+    return render(request, "gemini_chat.html", {"response": response_text})
